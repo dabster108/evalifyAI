@@ -9,7 +9,8 @@ venv/
 .venv/
 env/
 ENV/
-
+venv.bak/
+env.bak/
 # FastAPI / local settings
 .env
 
