@@ -1,16 +1,17 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 @layer base {
   :root {
     --background: #ffffff;
-    --foreground: #020617;
+    --foreground: #000000;
     --primary: #4f46e5;
     --secondary: #ec4899;
     --card: #ffffff;
-    --card-foreground: #020617;
+    --card-foreground: #000000;
     --border: #e2e8f0;
   }
-  
+
   .dark {
     --background: #020617;
     --foreground: #f8fafc;
@@ -22,6 +23,11 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  @apply bg-[var(--background)] text-[var(--foreground)] font-sans antialiased transition-colors duration-300;
+  font-family: "Inter", system-ui, sans-serif;
+  @apply bg-[var(--background)] text-[var(--foreground)] antialiased transition-colors duration-300;
 }
