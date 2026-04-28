@@ -1,560 +1,572 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  BrainCircuit, Eye, Mic, FileText, Briefcase, ArrowRight,
-  CheckCircle, Star, Users, TrendingUp, MessageSquare, LogOut,
-  Menu, X
-} from 'lucide-react';
-import { useState } from 'react';
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  BrainCircuit,
+  Eye,
+  Mic,
+  FileText,
+  Briefcase,
+  ArrowRight,
+  CheckCircle,
+  Star,
+  TrendingUp,
+  MessageSquare,
+  Menu,
+  X,
+} from "lucide-react";
+import { useState } from "react";
 
-// Animated Particles Background Component
-const ParticlesBackground = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden">
-      {[...Array(30)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-indigo-400/30 rounded-full"
-          animate={{
-            y: [0, -100],
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: Math.random() * 3 + 2,
-            repeat: Infinity,
-            delay: Math.random() * 2,
-          }}
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-        />
-      ))}
-    </div>
-  );
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
+
+const slideLeft = {
+  hidden: { opacity: 0, x: -60 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+};
+
+const slideRight = {
+  hidden: { opacity: 0, x: 60 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+};
+
+const stagger = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
+};
+
+const features = [
+  {
+    icon: BrainCircuit,
+    title: "NLP Answer Analysis",
+    desc: "Semantic scoring across technical and behavioral responses with deep context understanding.",
+  },
+  {
+    icon: Eye,
+    title: "Facial Emotion Detection",
+    desc: "Computer vision detects micro-expressions to measure confidence and engagement.",
+  },
+  {
+    icon: Mic,
+    title: "Speech Tone Analysis",
+    desc: "Voice modulation, pacing, and filler-word analysis for confidence profiling.",
+  },
+  {
+    icon: FileText,
+    title: "AI Feedback Reports",
+    desc: "Instant, actionable reports that highlight strengths, gaps, and next steps.",
+  },
+  {
+    icon: Briefcase,
+    title: "Role Recommendations",
+    desc: "Maps skills to job fit and suggests internal roles with high alignment.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Hiring Intelligence",
+    desc: "Track team performance trends and optimize your interview process.",
+  },
+];
+
+const steps = [
+  {
+    icon: FileText,
+    title: "Upload Resume",
+    desc: "Candidates submit resumes and profiles in minutes.",
+  },
+  {
+    icon: MessageSquare,
+    title: "AI Interview",
+    desc: "Structured sessions with real-time prompts and hints.",
+  },
+  {
+    icon: BrainCircuit,
+    title: "Multi-Modal Analysis",
+    desc: "NLP, vision, and speech models analyze simultaneously.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Instant Report",
+    desc: "Receive insights, scores, and recommendations instantly.",
+  },
+];
+
+const testimonials = [
+  {
+    name: "Sarah Chen",
+    role: "Talent Manager, TechCorp",
+    text: "evalifyAI reduced our hiring time by 60% and improved candidate quality significantly.",
+  },
+  {
+    name: "Marcus Johnson",
+    role: "HR Director, StartupXYZ",
+    text: "The emotion detection gives us objective data we never had before.",
+  },
+  {
+    name: "Elena Rodriguez",
+    role: "Recruitment Lead, Enterprise Co",
+    text: "This feels like the future of interviewing. The insights are incredible.",
+  },
+];
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#020617] via-[#0f172a] to-[#020617] text-slate-50 overflow-hidden font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-[#f7f7f7] text-slate-900">
       {/* Navbar */}
-      <nav className="fixed w-full z-50 top-0 border-b border-slate-800/50 bg-[#020617]/70 backdrop-blur-xl">
-        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center">
-              <BrainCircuit className="w-5 h-5" />
+      <nav className="sticky top-0 z-50 pt-6">
+        <div className="mx-auto max-w-3xl px-6">
+          <div className="flex items-center justify-between rounded-full bg-slate-100/90 backdrop-blur px-4 py-2 shadow-sm ring-1 ring-slate-200">
+            <div className="flex items-center gap-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
+                <BrainCircuit className="h-5 w-5" />
+              </div>
+              <span className="text-sm font-bold">evalifyAI</span>
             </div>
-            <span className="text-lg font-bold">evalifyAI</span>
-          </div>
-          
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-slate-400 hover:text-slate-100 transition">Features</a>
-            <a href="#how-it-works" className="text-slate-400 hover:text-slate-100 transition">How It Works</a>
-            <a href="#testimonials" className="text-slate-400 hover:text-slate-100 transition">Testimonials</a>
-          </div>
 
-          <div className="hidden md:flex items-center space-x-3">
-            <Link to="/dashboard" className="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition-colors font-medium text-sm">
-              Demo
-            </Link>
-          </div>
+            <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+              <a
+                href="#features"
+                className="transition-colors hover:text-slate-900"
+              >
+                Features
+              </a>
+              <a
+                href="#how-it-works"
+                className="transition-colors hover:text-slate-900"
+              >
+                How It Works
+              </a>
+              <a
+                href="#testimonials"
+                className="transition-colors hover:text-slate-900"
+              >
+                Testimonials
+              </a>
+            </div>
 
-          {/* Mobile menu button */}
-          <button 
-            className="md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-
-        {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-[#070B19] border-t border-slate-800">
-            <div className="px-6 py-4 space-y-3">
-              <a href="#features" className="block text-slate-400 hover:text-slate-100">Features</a>
-              <a href="#how-it-works" className="block text-slate-400 hover:text-slate-100">How It Works</a>
-              <a href="#testimonials" className="block text-slate-400 hover:text-slate-100">Testimonials</a>
-              <Link to="/dashboard" className="block px-5 py-2.5 rounded-lg bg-indigo-600 text-center font-medium text-sm">
+            <div className="hidden md:block">
+              <Link
+                to="/dashboard"
+                className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+              >
                 Demo
               </Link>
             </div>
+
+            <button
+              className="md:hidden text-slate-600"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
           </div>
-        )}
+
+          {mobileMenuOpen && (
+            <div className="mt-3 rounded-2xl bg-white px-6 py-4 shadow-sm ring-1 ring-slate-200">
+              <div className="space-y-3 text-sm font-medium text-slate-600">
+                <a href="#features" className="block hover:text-slate-900">
+                  Features
+                </a>
+                <a href="#how-it-works" className="block hover:text-slate-900">
+                  How It Works
+                </a>
+                <a href="#testimonials" className="block hover:text-slate-900">
+                  Testimonials
+                </a>
+                <Link
+                  to="/dashboard"
+                  className="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white"
+                >
+                  Demo
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-32 px-6 min-h-screen flex items-center justify-center overflow-hidden">
-        <ParticlesBackground />
-        
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]" />
-          <div className="absolute top-1/2 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px]" />
-        </div>
-        
-        <div className="container mx-auto max-w-5xl text-center relative z-10">
+      {/* Hero */}
+      <section className="px-6 pt-20 pb-24">
+        <div className="mx-auto max-w-3xl text-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 text-xs font-semibold mb-8"
+            initial="hidden"
+            animate="visible"
+            variants={stagger}
+            className="space-y-8"
           >
-            <span className="flex h-2 w-2 rounded-full bg-indigo-400"></span>
-            Next-Gen AI Evaluation Platform
-          </motion.div>
-
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.7 }}
-            className="text-5xl md:text-7xl font-bold tracking-tight mb-8 max-w-4xl mx-auto leading-tight"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          >
-            AI-Powered <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
-              Interview Intelligence
-            </span>
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-12 leading-relaxed"
-          >
-            Leverage advanced NLP, Computer Vision, and Speech Processing to evaluate candidate performance with superhuman precision. Get instant, intelligent feedback.
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="flex flex-col sm:flex-row justify-center gap-4 mb-16"
-          >
-            <Link 
-              to="/dashboard" 
-              className="px-8 py-4 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 transition-all font-semibold shadow-[0_0_40px_-10px_rgba(99,102,241,0.6)] flex items-center justify-center gap-2 group"
-            >
-              Get Started
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link 
-              to="/dashboard" 
-              className="px-8 py-4 rounded-lg bg-slate-900/50 border border-slate-700 hover:bg-slate-800 hover:border-slate-600 transition-colors font-semibold flex items-center justify-center gap-2"
-            >
-              View Dashboard Demo
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="grid grid-cols-3 gap-8 max-w-3xl mx-auto"
-          >
-            {[
-              { label: 'Evaluations', value: '50K+' },
-              { label: 'Accuracy', value: '94%' },
-              { label: 'Teams', value: '500+' },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-indigo-400 mb-1">{stat.value}</div>
-                <div className="text-xs md:text-sm text-slate-400">{stat.label}</div>
+            <motion.div variants={fadeUp}>
+              <div className="mx-auto mb-8 h-14 w-14 rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 flex items-center justify-center">
+                <BrainCircuit className="h-6 w-6 text-slate-900" />
               </div>
-            ))}
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900">
+                AI-Powered <br />
+                Interview Intelligence
+              </h1>
+            </motion.div>
+
+            <motion.p
+              variants={fadeUp}
+              className="text-base md:text-lg text-slate-500"
+            >
+              NLP, Computer Vision, and Speech Processing evaluate candidates
+              with precision, delivering intelligent feedback and role
+              recommendations.
+            </motion.p>
+
+            <motion.div
+              variants={fadeUp}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            >
+              <Link
+                to="/dashboard"
+                className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                Get Started
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to="/dashboard"
+                className="group inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-900 hover:text-slate-900"
+              >
+                View Dashboard Demo
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-32 px-6 bg-slate-900/40 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px]" />
-        </div>
-
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="text-center mb-20">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold mb-6"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
+      {/* Features */}
+      <section id="features" className="px-6 pb-24">
+        <motion.div
+          className="mx-auto max-w-5xl"
+          variants={slideLeft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-120px" }}
+        >
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-semibold">
               Comprehensive AI Analysis
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              viewport={{ once: true }}
-              className="text-slate-400 max-w-2xl mx-auto text-lg"
-            >
-              Evaluate every dimension of candidate performance using state-of-the-art multi-modal AI
-            </motion.p>
+            </h2>
+            <p className="mt-3 text-slate-500">
+              Evaluate every dimension of candidate performance using
+              multi-modal AI.
+            </p>
           </div>
-
-          <motion.div 
-            variants={containerVariants}
+          <motion.div
+            variants={stagger}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            viewport={{ once: true, margin: "-80px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {[
-              { 
-                icon: BrainCircuit, 
-                title: "NLP Answer Analysis", 
-                desc: "Real-time semantic analysis of technical and behavioral responses with context understanding." 
-              },
-              { 
-                icon: Eye, 
-                title: "Facial Emotion Detection", 
-                desc: "Computer vision detects micro-expressions to gauge genuine confidence and engagement." 
-              },
-              { 
-                icon: Mic, 
-                title: "Speech Tone Analysis", 
-                desc: "Analyzes voice modulation, pacing, filler words, and confidence indicators." 
-              },
-              { 
-                icon: FileText, 
-                title: "AI Feedback Reports", 
-                desc: "Instant beautifully detailed performance reports with actionable insights." 
-              },
-              { 
-                icon: Briefcase, 
-                title: "Role Recommendation", 
-                desc: "Matches candidate skills directly to open positions in your organization." 
-              },
-              { 
-                icon: TrendingUp, 
-                title: "Performance Analytics", 
-                desc: "Track hiring trends and candidate performance metrics over time." 
-              },
-            ].map((feature, i) => (
-              <motion.div 
-                key={i} 
-                variants={itemVariants}
-                whileHover={{ scale: 1.05, borderColor: '#818cf8' }}
-                className="p-8 rounded-2xl bg-gradient-to-br from-slate-900/60 to-slate-800/30 border border-slate-800 transition-all duration-300 group cursor-pointer"
+            {features.map((feature) => (
+              <motion.div
+                key={feature.title}
+                variants={fadeUp}
+                className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 transition-transform duration-300 hover:-translate-y-1"
               >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500/20 to-blue-500/20 text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <feature.icon className="w-7 h-7" />
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-slate-100">
+                  <feature.icon className="h-5 w-5 text-slate-900" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-slate-400 leading-relaxed">{feature.desc}</p>
+                <h3 className="text-lg font-semibold">{feature.title}</h3>
+                <p className="mt-2 text-sm text-slate-500">{feature.desc}</p>
               </motion.div>
             ))}
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* How It Works Section */}
-      <section id="how-it-works" className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]" />
-        </div>
-
-        <div className="container mx-auto max-w-5xl relative z-10">
-          <div className="text-center mb-20">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold mb-6"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              How It Works
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              viewport={{ once: true }}
-              className="text-slate-400 text-lg"
-            >
-              A seamless process from application to intelligent evaluation
-            </motion.p>
+      {/* How It Works */}
+      <section id="how-it-works" className="px-6 pb-24">
+        <motion.div
+          className="mx-auto max-w-5xl"
+          variants={slideRight}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-120px" }}
+        >
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-semibold">How It Works</h2>
+            <p className="mt-3 text-slate-500">
+              A seamless process from interview to report.
+            </p>
           </div>
-
-          <div className="relative mb-16">
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent -translate-y-1/2" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              {[
-                { num: '01', title: 'Upload Resume', desc: 'Candidate submits their resume and basic information' },
-                { num: '02', title: 'Start Interview', desc: 'AI-guided interview with real-time analysis' },
-                { num: '03', title: 'Multi-Modal Analysis', desc: 'NLP, vision, and speech processing simultaneously' },
-                { num: '04', title: 'Instant Report', desc: 'Comprehensive feedback and recommendations' },
-              ].map((step, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  className="relative z-10 flex flex-col items-center text-center"
-                >
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 flex items-center justify-center font-bold text-lg mb-6 ring-4 ring-[#020617] shadow-lg shadow-indigo-500/30">
-                    {step.num}
-                  </div>
-                  <h4 className="text-lg font-bold mb-2">{step.title}</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Dashboard Preview Section */}
-      <section className="py-32 px-6 bg-slate-900/40 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px]" />
-        </div>
-
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="text-center mb-20">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold mb-6"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              Powerful Dashboard
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              viewport={{ once: true }}
-              className="text-slate-400 max-w-2xl mx-auto text-lg"
-            >
-              Analytics, reports, and candidate management all in one beautiful interface
-            </motion.p>
-          </div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-slate-900/80 to-slate-800/40 border border-slate-700/50 rounded-2xl p-8 shadow-2xl shadow-indigo-500/10"
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
-            <div className="bg-slate-800/50 rounded-lg p-6 space-y-4">
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <div className="h-8 bg-slate-700/50 rounded w-32 mb-4" />
-                  <div className="grid grid-cols-3 gap-3">
-                    {[...Array(3)].map((_, i) => (
-                      <div key={i} className="h-20 bg-slate-700/30 rounded-lg" />
-                    ))}
+            {steps.map((step, index) => (
+              <motion.div
+                key={step.title}
+                variants={fadeUp}
+                className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 transition-transform duration-300 hover:-translate-y-1"
+              >
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-white">
+                    <step.icon className="h-5 w-5" />
+                  </div>
+                  <span className="text-xs font-semibold text-slate-500">
+                    Step 0{index + 1}
+                  </span>
+                </div>
+                <h3 className="text-base font-semibold">{step.title}</h3>
+                <p className="mt-2 text-sm text-slate-500">{step.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Dashboard Preview */}
+      <section className="px-6 pb-24">
+        <motion.div
+          className="mx-auto max-w-5xl"
+          variants={slideLeft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-120px" }}
+        >
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-semibold">
+              Powerful Dashboard
+            </h2>
+            <p className="mt-3 text-slate-500">
+              Analytics, reports, and candidate management in one clean
+              interface.
+            </p>
+          </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200"
+          >
+            <div className="space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-slate-400">
+                    AI Interview Dashboard
+                  </p>
+                  <h3 className="text-lg font-semibold text-slate-900">
+                    Interview Intelligence Overview
+                  </h3>
+                </div>
+                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600">
+                  Live Analysis
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  { label: "Confidence Score", value: "88%" },
+                  { label: "Communication", value: "92%" },
+                  { label: "Technical", value: "85%" },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs text-slate-500">{item.label}</p>
+                    <p className="mt-2 text-2xl font-semibold text-slate-900">
+                      {item.value}
+                    </p>
+                    <div className="mt-3 h-2 w-full rounded-full bg-slate-200">
+                      <div
+                        className="h-2 rounded-full bg-slate-900"
+                        style={{ width: item.value }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="lg:col-span-2 rounded-2xl bg-slate-50 p-4">
+                  <p className="text-xs text-slate-500">Performance Trend</p>
+                  <div className="mt-3 h-36 rounded-xl bg-white ring-1 ring-slate-200" />
+                </div>
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <p className="text-xs text-slate-500">AI Feedback</p>
+                  <p className="mt-3 text-sm text-slate-600">
+                    Strong clarity and structure. Recommend deeper technical
+                    probing on system design questions.
+                  </p>
+                  <div className="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                    Strengths identified
                   </div>
                 </div>
               </div>
-              <div className="h-48 bg-slate-700/20 rounded-lg" />
-            </div>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            viewport={{ once: true }}
-            className="flex justify-center mt-12"
-          >
-            <Link 
-              to="/dashboard" 
-              className="px-8 py-4 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 transition-all font-semibold shadow-[0_0_40px_-10px_rgba(99,102,241,0.6)] inline-flex items-center gap-2 group"
-            >
-              Explore Dashboard
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-[120px]" />
-        </div>
-
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="text-center mb-20">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold mb-6"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              Loved by Recruiters
-            </motion.h2>
-          </div>
-
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          >
-            {[
-              {
-                name: "Sarah Chen",
-                role: "Talent Manager, TechCorp",
-                text: "evalifyAI reduced our hiring time by 60% and improved candidate quality significantly. The insights are invaluable.",
-                avatar: "SC"
-              },
-              {
-                name: "Marcus Johnson",
-                role: "HR Director, StartupXYZ",
-                text: "The emotion detection feature is mind-blowing. We finally have objective data to make better hiring decisions.",
-                avatar: "MJ"
-              },
-              {
-                name: "Elena Rodriguez",
-                role: "Recruitment Lead, Enterprise Co",
-                text: "This is the future of hiring. Our team can't imagine going back to traditional interviews.",
-                avatar: "ER"
-              },
-            ].map((testimonial, i) => (
-              <motion.div 
-                key={i}
-                variants={itemVariants}
-                className="p-8 rounded-2xl bg-gradient-to-br from-slate-900/60 to-slate-800/30 border border-slate-800 hover:border-indigo-500/50 transition-colors"
-              >
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-4 h-4 fill-indigo-400 text-indigo-400" />
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-xs text-slate-500">Recent Interviews</p>
+                <div className="mt-3 space-y-2 text-sm">
+                  {[
+                    { name: "Alex Kumar", role: "Frontend", score: "91%" },
+                    { name: "Maria Santos", role: "Product", score: "87%" },
+                    { name: "James Chen", role: "Backend", score: "94%" },
+                  ].map((row) => (
+                    <div
+                      key={row.name}
+                      className="flex items-center justify-between rounded-xl bg-white px-3 py-2 ring-1 ring-slate-200"
+                    >
+                      <span className="font-medium text-slate-700">
+                        {row.name}
+                      </span>
+                      <span className="text-slate-500">{row.role}</span>
+                      <span className="font-semibold text-slate-900">
+                        {row.score}
+                      </span>
+                    </div>
                   ))}
                 </div>
-                <p className="text-slate-300 mb-6 leading-relaxed">"{testimonial.text}"</p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center font-bold">
-                    {testimonial.avatar}
+              </div>
+            </div>
+          </motion.div>
+          <div className="mt-10 flex justify-center">
+            <Link
+              to="/dashboard"
+              className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+            >
+              Explore Dashboard
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Testimonials */}
+      <section id="testimonials" className="px-6 pb-24">
+        <motion.div
+          className="mx-auto max-w-5xl"
+          variants={slideRight}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-120px" }}
+        >
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-semibold">
+              What Teams Are Saying
+            </h2>
+          </div>
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+            {testimonials.map((testimonial) => (
+              <motion.div
+                key={testimonial.name}
+                variants={fadeUp}
+                className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200"
+              >
+                <div className="flex items-center gap-1 text-slate-900">
+                  {[...Array(5)].map((_, idx) => (
+                    <Star key={idx} className="h-4 w-4 fill-slate-900" />
+                  ))}
+                </div>
+                <p className="mt-4 text-sm text-slate-600">
+                  "{testimonial.text}"
+                </p>
+                <div className="mt-6 text-sm">
+                  <div className="font-semibold text-slate-900">
+                    {testimonial.name}
                   </div>
-                  <div>
-                    <h4 className="font-bold">{testimonial.name}</h4>
-                    <p className="text-sm text-slate-400">{testimonial.role}</p>
-                  </div>
+                  <div className="text-slate-500">{testimonial.role}</div>
                 </div>
               </motion.div>
             ))}
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-96 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-full blur-[120px]" />
-        </div>
-
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-6"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          >
+      {/* CTA */}
+      <section className="px-6 pb-24">
+        <motion.div
+          className="mx-auto max-w-4xl rounded-3xl bg-white px-8 py-12 text-center shadow-sm ring-1 ring-slate-200"
+          variants={slideLeft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-120px" }}
+        >
+          <h2 className="text-3xl md:text-4xl font-semibold">
             Ready to Transform Your Hiring?
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            viewport={{ once: true }}
-            className="text-slate-400 text-xl mb-12 max-w-2xl mx-auto"
-          >
-            Join hundreds of companies using evalifyAI to make better hiring decisions faster.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <Link 
-              to="/dashboard" 
-              className="px-10 py-4 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 transition-all font-semibold shadow-[0_0_40px_-10px_rgba(99,102,241,0.6)] inline-flex items-center gap-2 group text-lg"
+          </h2>
+          <p className="mt-3 text-slate-500">
+            Join teams using evalifyAI to make faster, smarter hiring decisions.
+          </p>
+          <div className="mt-8 flex justify-center">
+            <Link
+              to="/dashboard"
+              className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
               Start Free Trial
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
-      <footer className="py-16 px-6 border-t border-slate-800/50 bg-slate-900/40 relative z-10">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+      <footer className="border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-5xl px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 text-sm">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center">
-                  <BrainCircuit className="w-5 h-5" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
+                  <BrainCircuit className="h-5 w-5" />
                 </div>
-                <span className="text-lg font-bold">evalifyAI</span>
+                <span className="font-semibold">evalifyAI</span>
               </div>
-              <p className="text-slate-400 text-sm">AI-powered interview intelligence for modern recruiting.</p>
+              <p className="text-slate-500">
+                AI-powered interview intelligence for modern recruiting teams.
+              </p>
             </div>
             <div>
-              <h4 className="font-bold mb-4">Product</h4>
-              <ul className="space-y-2 text-slate-400 text-sm">
-                <li><a href="#" className="hover:text-slate-100">Features</a></li>
-                <li><a href="#" className="hover:text-slate-100">Pricing</a></li>
-                <li><a href="#" className="hover:text-slate-100">FAQ</a></li>
+              <h4 className="font-semibold text-slate-900 mb-3">Product</h4>
+              <ul className="space-y-2 text-slate-500">
+                <li>Features</li>
+                <li>Pricing</li>
+                <li>FAQ</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-4">Company</h4>
-              <ul className="space-y-2 text-slate-400 text-sm">
-                <li><a href="#" className="hover:text-slate-100">About</a></li>
-                <li><a href="#" className="hover:text-slate-100">Blog</a></li>
-                <li><a href="#" className="hover:text-slate-100">Contact</a></li>
+              <h4 className="font-semibold text-slate-900 mb-3">Company</h4>
+              <ul className="space-y-2 text-slate-500">
+                <li>About</li>
+                <li>Blog</li>
+                <li>Contact</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-4">Legal</h4>
-              <ul className="space-y-2 text-slate-400 text-sm">
-                <li><a href="#" className="hover:text-slate-100">Privacy</a></li>
-                <li><a href="#" className="hover:text-slate-100">Terms</a></li>
-                <li><a href="#" className="hover:text-slate-100">Security</a></li>
+              <h4 className="font-semibold text-slate-900 mb-3">Legal</h4>
+              <ul className="space-y-2 text-slate-500">
+                <li>Privacy</li>
+                <li>Terms</li>
+                <li>Security</li>
               </ul>
             </div>
           </div>
-
-          <div className="border-t border-slate-800/50 pt-8 flex flex-col md:flex-row items-center justify-between text-slate-400 text-sm">
-            <div>&copy; {new Date().getFullYear()} evalifyAI. All rights reserved.</div>
-            <div className="flex gap-6 mt-6 md:mt-0">
-              <a href="#" className="hover:text-slate-100 transition">Twitter</a>
-              <a href="#" className="hover:text-slate-100 transition">LinkedIn</a>
-              <a href="#" className="hover:text-slate-100 transition">GitHub</a>
+          <div className="mt-10 flex flex-col md:flex-row items-center justify-between text-xs text-slate-400">
+            <span>
+              &copy; {new Date().getFullYear()} evalifyAI. All rights reserved.
+            </span>
+            <div className="mt-4 md:mt-0 flex gap-6">
+              <span>Twitter</span>
+              <span>LinkedIn</span>
+              <span>GitHub</span>
             </div>
           </div>
         </div>
