@@ -221,7 +221,8 @@ const interviewTracks = [
   },
   {
     title: "IDE Pair Interview",
-    detail: "Live coding interview with problem prompts and code quality checks.",
+    detail:
+      "Live coding interview with problem prompts and code quality checks.",
   },
   {
     title: "Role Competency Round",
@@ -311,8 +312,15 @@ const slideInLeft = {
 };
 
 const scrollItemVariants = {
-  hidden: { opacity: 0, x: -16 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+  hidden: (direction) => ({
+    opacity: 0,
+    x: direction > 0 ? 28 : -28,
+  }),
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.45, ease: "easeOut" },
+  },
 };
 
 export default function Dashboard() {
@@ -394,37 +402,6 @@ export default function Dashboard() {
               );
             })}
           </nav>
-
-          {sidebarOpen && (
-            <div className="px-4 pb-4">
-              <div className="rounded-2xl border border-slate-200/70 bg-slate-50 p-4">
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
-                  <span>AI Status</span>
-                  <span className="inline-flex items-center gap-2 text-slate-500">
-                    <span className="h-2 w-2 rounded-full bg-slate-900" />
-                    Live
-                  </span>
-                </div>
-                <p className="mt-2 text-xs text-slate-500">
-                  NLP, Vision, Speech all active.
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <Badge
-                    variant="subtle"
-                    className="text-[10px] uppercase tracking-wide text-slate-500"
-                  >
-                    99.2% uptime
-                  </Badge>
-                  <Badge
-                    variant="subtle"
-                    className="text-[10px] uppercase tracking-wide text-slate-500"
-                  >
-                    2 alerts
-                  </Badge>
-                </div>
-              </div>
-            </div>
-          )}
 
           {sidebarOpen && (
             <div className="p-4 border-t border-slate-200/70">
@@ -541,6 +518,11 @@ export default function Dashboard() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <motion.div
+                      variants={scrollItemVariants}
+                      custom={1}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, margin: "-40px" }}
                       whileHover={{ y: -2 }}
                       className="rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 px-6 py-8 text-center"
                     >
@@ -556,9 +538,14 @@ export default function Dashboard() {
                       </Button>
                     </motion.div>
                     <div className="space-y-3">
-                      {resumeUploads.map((resume) => (
+                      {resumeUploads.map((resume, index) => (
                         <motion.div
                           key={resume.name}
+                          variants={scrollItemVariants}
+                          custom={index % 2 === 0 ? 1 : -1}
+                          initial="hidden"
+                          whileInView="visible"
+                          viewport={{ once: true, margin: "-40px" }}
                           whileHover={{ x: 4 }}
                           className="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
                         >
@@ -589,9 +576,14 @@ export default function Dashboard() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    {interviewTracks.map((track) => (
-                      <div
+                    {interviewTracks.map((track, index) => (
+                      <motion.div
                         key={track.title}
+                        variants={scrollItemVariants}
+                        custom={index % 2 === 0 ? 1 : -1}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-40px" }}
                         className="rounded-xl border border-slate-200 bg-slate-50 p-3"
                       >
                         <p className="text-sm font-semibold text-slate-900">
@@ -600,7 +592,7 @@ export default function Dashboard() {
                         <p className="mt-1 text-xs text-slate-500">
                           {track.detail}
                         </p>
-                      </div>
+                      </motion.div>
                     ))}
                   </CardContent>
                 </Card>
@@ -645,7 +637,8 @@ export default function Dashboard() {
                         Settings reports
                       </p>
                       <p className="mt-1 text-sm font-semibold text-slate-900">
-                        Rubric templates, fairness checks, and policy audit logs.
+                        Rubric templates, fairness checks, and policy audit
+                        logs.
                       </p>
                     </div>
                     <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
@@ -684,6 +677,7 @@ export default function Dashboard() {
                   <motion.div
                     key={section.title}
                     variants={scrollItemVariants}
+                    custom={index % 2 === 0 ? 1 : -1}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-40px" }}
@@ -764,7 +758,11 @@ export default function Dashboard() {
             </motion.div>
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-              <motion.div variants={itemVariants} className="lg:col-span-2">
+              <motion.div
+                variants={scrollItemVariants}
+                custom={1}
+                className="lg:col-span-2"
+              >
                 <Card className="relative overflow-hidden border-slate-300/80 shadow-sm">
                   <CardHeader className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div>
@@ -847,7 +845,11 @@ export default function Dashboard() {
                 </Card>
               </motion.div>
 
-              <motion.div variants={itemVariants} className="space-y-4">
+              <motion.div
+                variants={scrollItemVariants}
+                custom={-1}
+                className="space-y-4"
+              >
                 {summaryCards.map((stat) => (
                   <Card
                     key={stat.label}
@@ -873,7 +875,11 @@ export default function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-              <motion.div variants={itemVariants} className="lg:col-span-2">
+              <motion.div
+                variants={scrollItemVariants}
+                custom={1}
+                className="lg:col-span-2"
+              >
                 <Card>
                   <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
@@ -925,7 +931,7 @@ export default function Dashboard() {
                 </Card>
               </motion.div>
 
-              <motion.div variants={itemVariants}>
+              <motion.div variants={scrollItemVariants} custom={-1}>
                 <Card className="h-full">
                   <CardHeader>
                     <div className="flex items-center gap-2">
@@ -956,7 +962,11 @@ export default function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-              <motion.div variants={itemVariants} className="lg:col-span-2">
+              <motion.div
+                variants={scrollItemVariants}
+                custom={1}
+                className="lg:col-span-2"
+              >
                 <Card>
                   <CardHeader>
                     <div className="flex items-center gap-2">
@@ -1003,7 +1013,7 @@ export default function Dashboard() {
                 </Card>
               </motion.div>
 
-              <motion.div variants={itemVariants}>
+              <motion.div variants={scrollItemVariants} custom={-1}>
                 <Card className="h-full">
                   <CardHeader>
                     <div className="flex items-center gap-2">
